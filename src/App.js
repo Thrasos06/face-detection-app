@@ -7,6 +7,7 @@ import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Rank from "./components/Rank/Rank";
 import ParticlesBg from "particles-bg";
 import Clarifai from "clarifai";
+import SignIn from "./components/SignIn/SignIn";
 
 console.log(Clarifai);
 
@@ -16,6 +17,7 @@ console.log(Clarifai);
 
 function App() {
   const [inputUrl, setInputUrl] = useState("");
+  const [displaySignForm, setDisplaySignForm] = useState("singIn");
   const onButtonSubmit = () => {
     console.log("click");
     // app.models
@@ -36,18 +38,28 @@ function App() {
     //   );
   };
 
+  const onRouteChange = (route) => {
+    setDisplaySignForm(route);
+  };
+
   return (
     <div className="App">
-      <Navigation />
+      <Navigation onRouteChange={onRouteChange} />
       <Logo />
-      <Rank />
-      <ImageLinkForm
-        inputUrl={inputUrl}
-        setInputUrl={setInputUrl}
-        onButtonSubmit={onButtonSubmit}
-      />
-      <FaceRecognition inputUrl={inputUrl} />
-      <ParticlesBg type="cobweb" bg={true} />
+      {displaySignForm === "signIn" ? (
+        <SignIn onRouteChange={onRouteChange} />
+      ) : (
+        <div>
+          <Rank />
+          <ImageLinkForm
+            inputUrl={inputUrl}
+            setInputUrl={setInputUrl}
+            onButtonSubmit={onButtonSubmit}
+          />
+          <FaceRecognition inputUrl={inputUrl} />
+          <ParticlesBg type="cobweb" bg={true} />
+        </div>
+      )}
     </div>
   );
 }
