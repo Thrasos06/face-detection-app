@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
@@ -8,6 +8,7 @@ import Rank from "./components/Rank/Rank";
 import ParticlesBg from "particles-bg";
 import Clarifai from "clarifai";
 import SignIn from "./components/SignIn/SignIn";
+import Register from "./components/Register/Register";
 
 console.log(Clarifai);
 
@@ -17,7 +18,8 @@ console.log(Clarifai);
 
 function App() {
   const [inputUrl, setInputUrl] = useState("");
-  const [displaySignForm, setDisplaySignForm] = useState("singIn");
+  const [displaySignForm, setDisplaySignForm] = useState("signIn");
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const onButtonSubmit = () => {
     console.log("click");
     // app.models
@@ -42,13 +44,21 @@ function App() {
     setDisplaySignForm(route);
   };
 
+  useEffect(() => {
+    if (displaySignForm === "signIn" || displaySignForm === "register") {
+      setIsSignedIn(false);
+    } else if (displaySignForm === "home") {
+      setIsSignedIn(true);
+    } else {
+      setIsSignedIn(true);
+    }
+  }, [displaySignForm]);
+
   return (
     <div className="App">
-      <Navigation onRouteChange={onRouteChange} />
+      <Navigation onRouteChange={onRouteChange} isSignedIn={isSignedIn} />
       <Logo />
-      {displaySignForm === "signIn" ? (
-        <SignIn onRouteChange={onRouteChange} />
-      ) : (
+      {displaySignForm === "home" ? (
         <div>
           <Rank />
           <ImageLinkForm
@@ -59,6 +69,10 @@ function App() {
           <FaceRecognition inputUrl={inputUrl} />
           <ParticlesBg type="cobweb" bg={true} />
         </div>
+      ) : displaySignForm === "register" ? (
+        <Register onRouteChange={onRouteChange} />
+      ) : (
+        <SignIn onRouteChange={onRouteChange} />
       )}
     </div>
   );
