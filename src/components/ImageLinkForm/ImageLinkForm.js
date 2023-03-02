@@ -4,8 +4,9 @@ import "./ImageLinkForm.css";
 const ImageLinkForm = ({ inputUrl, setInputUrl, onButtonSubmit }) => {
   return (
     <div>
-      <p className="f3 pa1">
-        This magic Brain will detect faces in your picture. Give it a try!
+      <p className="white f3 pa1">
+        This magic Brain will detect faces in your picture. Give it a try! Put
+        an image jpg URL and press DETECT.
       </p>
       <div className="center">
         <div className="form center pa4 br3 shadow-5">
